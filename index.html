@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>QTM Media Technology - Hồ sơ năng lực công ty</title>
+  <meta name="description" content="QTM Media Technology - Hồ sơ năng lực công ty truyền thông, marketing, sự kiện, đào tạo, sản xuất nội dung và giải pháp công nghệ." />
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Roboto", sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #eefaff;
+      color: #082f49;
+      overflow-x: hidden;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    section {
+      padding: 90px 7%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: auto;
+    }
+
+    .title {
+      font-size: 42px;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #082f49;
+      text-transform: uppercase;
+    }
+
+    .desc {
+      max-width: 760px;
+      margin: 0 auto 48px;
+      text-align: center;
+      color: #64748b;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* LOADING */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: #082f49;
+      z-index: 99999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .loader-logo {
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #38bdf8;
+      animation: pulse 1.4s infinite;
+    }
+
+    .loader-line {
+      width: 240px;
+      height: 5px;
+      margin-top: 22px;
+      background: rgba(255,255,255,0.16);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .loader-line span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #38bdf8, #0ea5e9, #ffffff);
+      animation: loading 1.8s forwards;
+    }
+
+    @keyframes loading {
+      to { width: 100%; }
+    }
+
+    @keyframes pulse {
+      50% { transform: scale(1.08); }
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 18px 7%;
+      background: rgba(238, 250, 255, 0.82);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(14,165,233,0.14);
+    }
+
+    .header-inner {
+      max-width: 1240px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: 900;
+      color: #082f49;
+    }
+
+    .logo span {
+      color: #38bdf8;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    nav a:hover {
+      color: #0ea5e9;
+    }
+
+    .btn {
+      position: relative;
+      overflow: hidden;
+      border: none;
+      cursor: pointer;
+      padding: 15px 28px;
+      border-radius: 24px 8px 24px 8px;
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9, #075985);
+      color: #fff;
+      font-weight: 900;
+      box-shadow: 0 16px 35px rgba(14,165,233,0.28);
+      transition: 0.35s;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -90%;
+      width: 70%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+      transition: 0.55s;
+    }
+
+    .btn:hover::before {
+      left: 120%;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 25px 55px rgba(14,165,233,0.4);
+    }
+
+    .btn-light {
+      background: #ffffff;
+      color: #075985;
+      border: 1px solid rgba(14,165,233,0.16);
+    }
+
+    .menu-btn {
+      display: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      border: none;
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #fff;
+      font-size: 24px;
+      z-index: 2000;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 82px;
+      right: -270px;
+      width: 250px;
+      padding: 26px;
+      background: rgba(8,47,73,0.96);
+      color: white;
+      border-radius: 28px 0 0 28px;
+      z-index: 1500;
+      transition: 0.35s;
+    }
+
+    .mobile-menu.active {
+      right: 0;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 15px 0;
+      font-weight: 800;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      padding-top: 130px;
+      background:
+        radial-gradient(circle at 80% 16%, rgba(56,189,248,0.32), transparent 28%),
+        radial-gradient(circle at 12% 85%, rgba(14,165,233,0.16), transparent 28%),
+        linear-gradient(135deg, #f1fbff, #dff6ff, #ffffff);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.2;
+      background-image:
+        repeating-radial-gradient(
+          ellipse at 85% 20%,
+          transparent 0px,
+          transparent 22px,
+          rgba(8,47,73,0.55) 24px,
+          transparent 27px
+        );
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 55px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 18px 6px 18px 6px;
+      background: rgba(56,189,248,0.16);
+      border: 1px solid rgba(56,189,248,0.36);
+      color: #0369a1;
+      font-weight: 900;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: 58px;
+      line-height: 1.08;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #082f49;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      color: #0ea5e9;
+    }
+
+    .hero p {
+      font-size: 18px;
+      line-height: 1.75;
+      color: #475569;
+      margin-bottom: 32px;
+      max-width: 650px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 40px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(14,165,233,0.14);
+      border-radius: 26px 8px 26px 8px;
+      padding: 20px;
+      box-shadow: 0 18px 42px rgba(14,165,233,0.11);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 27px;
+      color: #0ea5e9;
+      margin-bottom: 6px;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-img {
+      height: 500px;
+      border-radius: 48px 16px 48px 16px;
+      overflow: hidden;
+      box-shadow: 0 35px 90px rgba(8,47,73,0.22);
+      animation: float 3.4s ease-in-out infinite;
+    }
+
+    .hero-img img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mini-card {
+      position: absolute;
+      left: -35px;
+      bottom: 40px;
+      width: 220px;
+      padding: 20px;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(14,165,233,0.2);
+      border-radius: 28px 8px 28px 8px;
+      box-shadow: 0 24px 55px rgba(8,47,73,0.17);
+    }
+
+    .mini-card strong {
+      color: #0ea5e9;
+      font-size: 24px;
+      display: block;
+    }
+
+    @keyframes float {
+      50% { transform: translateY(-14px); }
+    }
+
+    /* DARK CORE */
+    .dark {
+      background:
+        radial-gradient(circle at 12% 20%, rgba(56,189,248,0.22), transparent 28%),
+        linear-gradient(135deg, #041f33, #075985, #082f49);
+      color: white;
+    }
+
+    .dark .title,
+    .dark .desc {
+      color: white;
+    }
+
+    .core-panel {
+      max-width: 980px;
+      margin: auto;
+      padding: 44px;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 42px 14px 42px 14px;
+      box-shadow: 0 35px 90px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .core-panel h3 {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .core-panel p {
+      color: #e0f7ff;
+      line-height: 1.7;
+      margin-bottom: 34px;
+    }
+
+    .core-grid,
+    .service-grid,
+    .product-grid,
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+
+    .core-card,
+    .service-card,
+    .product-card,
+    .case-card {
+      background: white;
+      color: #082f49;
+      border: 1px solid rgba(14,165,233,0.14);
+      border-radius: 34px 12px 34px 12px;
+      padding: 30px;
+      box-shadow: 0 22px 55px rgba(14,165,233,0.12);
+      transition: 0.35s;
+    }
+
+    .core-card:hover,
+    .service-card:hover,
+    .product-card:hover,
+    .case-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 35px 75px rgba(14,165,233,0.25);
+    }
+
+    .icon {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 18px;
+      border-radius: 22px 8px 22px 8px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #e0f7ff, #bae6fd);
+      color: #075985;
+      font-size: 32px;
+    }
+
+    .core-card {
+      text-align: center;
+    }
+
+    .core-card h4,
+    .service-card h3,
+    .product-card h3,
+    .case-card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .core-card p,
+    .service-card p,
+    .product-card p,
+    .case-card p {
+      color: #64748b;
+      line-height: 1.7;
+    }
+
+    /* ABOUT */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 58px;
+      align-items: center;
+    }
+
+    .split h2 {
+      font-size: 42px;
+      line-height: 1.2;
+      font-weight: 900;
+      margin-bottom: 22px;
+    }
+
+    .split p {
+      color: #64748b;
+      line-height: 1.8;
+      margin-bottom: 18px;
+      font-size: 17px;
+    }
+
+    .image-stack {
+      position: relative;
+    }
+
+    .image-main {
+      border-radius: 46px 14px 46px 14px;
+      overflow: hidden;
+      box-shadow: 0 30px 75px rgba(8,47,73,0.16);
+    }
+
+    .image-main img {
+      height: 430px;
+      object-fit: cover;
+    }
+
+    .image-small {
+      position: absolute;
+      right: -30px;
+      bottom: -35px;
+      width: 250px;
+      border: 8px solid white;
+      border-radius: 32px 10px 32px 10px;
+      overflow: hidden;
+      box-shadow: 0 25px 55px rgba(8,47,73,0.2);
+    }
+
+    .image-small img {
+      height: 170px;
+      object-fit: cover;
+    }
+
+    /* SERVICES */
+    .service-card {
+      text-align: center;
+    }
+
+    .service-card img {
+      height: 170px;
+      object-fit: cover;
+      border-radius: 26px 8px 26px 8px;
+      margin-bottom: 20px;
+    }
+
+    .service-card .btn {
+      margin-top: 18px;
+      padding: 13px 22px;
+    }
+
+    /* PRODUCT */
+    .product-card {
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .product-card img {
+      height: 235px;
+      object-fit: cover;
+    }
+
+    .product-body {
+      padding: 28px;
+    }
+
+    .tag {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 18px 6px 18px 6px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .price {
+      color: #0ea5e9;
+      font-size: 28px;
+      font-weight: 900;
+      margin: 14px 0;
+    }
+
+    .sale-section {
+      padding: 60px 7%;
+    }
+
+    .sale-box {
+      max-width: 1240px;
+      margin: auto;
+      padding: 70px 40px;
+      text-align: center;
+      color: white;
+      background:
+        radial-gradient(circle at 85% 20%, rgba(255,255,255,0.25), transparent 26%),
+        linear-gradient(135deg, #38bdf8, #0ea5e9, #082f49);
+      border-radius: 54px 18px 54px 18px;
+      box-shadow: 0 35px 90px rgba(14,165,233,0.3);
+      animation: glow 1.8s infinite alternate;
+    }
+
+    .sale-box h2 {
+      font-size: 48px;
+      margin-bottom: 14px;
+    }
+
+    .sale-box p {
+      font-size: 18px;
+      margin-bottom: 28px;
+      color: #f0fbff;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 36px rgba(14,165,233,0.3); }
+      to { box-shadow: 0 0 90px rgba(56,189,248,0.62); }
+    }
+
+    /* FILM */
+    .film-strip {
+      padding: 35px 0;
+      background: #041f33;
+      overflow: hidden;
+    }
+
+    .film-track {
+      display: flex;
+      gap: 18px;
+      width: max-content;
+      animation: marquee 24s linear infinite;
+    }
+
+    .film-item {
+      width: 280px;
+      height: 132px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 6px solid #020617;
+      box-shadow: 0 18px 42px rgba(0,0,0,0.25);
+    }
+
+    .film-item img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* CASE */
+    .case-card img {
+      height: 210px;
+      object-fit: cover;
+      border-radius: 26px 8px 26px 8px;
+      margin-bottom: 18px;
+    }
+
+    .result {
+      margin-top: 16px;
+      display: inline-block;
+      font-size: 28px;
+      font-weight: 900;
+      color: #0ea5e9;
+    }
+
+    /* PARTNERS */
+    .partner-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+    }
+
+    .partner {
+      min-height: 92px;
+      background: white;
+      border: 1px solid rgba(14,165,233,0.12);
+      border-radius: 28px 10px 28px 10px;
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+      font-weight: 900;
+      color: #082f49;
+      box-shadow: 0 18px 42px rgba(14,165,233,0.1);
+    }
+
+    /* FORM */
+    .form-section {
+      background:
+        radial-gradient(circle at 85% 20%, rgba(56,189,248,0.25), transparent 28%),
+        linear-gradient(135deg, #041f33, #075985);
+      color: white;
+    }
+
+    .form-section .title,
+    .form-section .desc {
+      color: white;
+    }
+
+    .form-wrapper {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .contact-info {
+      padding: 36px;
+      background: rgba(255,255,255,0.11);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 38px 14px 38px 14px;
+    }
+
+    .contact-info h3 {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .contact-info p {
+      color: #e0f7ff;
+      margin-bottom: 14px;
+      line-height: 1.7;
+    }
+
+    .form-box {
+      padding: 38px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(18px);
+      border-radius: 42px 14px 42px 14px;
+      box-shadow: 0 35px 90px rgba(0,0,0,0.18);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(14,165,233,0.18);
+      border-radius: 20px 7px 20px 7px;
+      background: rgba(255,255,255,0.95);
+      outline: none;
+      color: #082f49;
+      font-size: 15px;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    /* POPUP */
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(8,47,73,0.72);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .popup.active {
+      display: flex;
+    }
+
+    .popup-content {
+      width: 100%;
+      max-width: 540px;
+      background: white;
+      padding: 38px;
+      border-radius: 46px 14px 46px 14px;
+      box-shadow: 0 35px 90px rgba(0,0,0,0.28);
+      animation: zoomIn 0.35s ease;
+    }
+
+    .popup-content h2 {
+      font-size: 30px;
+      color: #082f49;
+    }
+
+    .popup-content p {
+      color: #64748b;
+      margin: 12px 0 24px;
+      line-height: 1.7;
+    }
+
+    .close {
+      float: right;
+      font-size: 30px;
+      color: #0ea5e9;
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #041f33;
+      color: #dff7ff;
+      padding: 55px 7%;
+    }
+
+    .footer-grid {
+      max-width: 1240px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 30px;
+    }
+
+    footer h2,
+    footer h3 {
+      color: #38bdf8;
+      margin-bottom: 14px;
+    }
+
+    footer p,
+    footer a {
+      color: #dff7ff;
+      line-height: 1.8;
+      display: block;
+    }
+
+    /* ANIMATION */
+    .fade-left,
+    .fade-right,
+    .fade-bottom,
+    .fade-up,
+    .zoom {
+      opacity: 0;
+      transition: 0.9s ease;
+    }
+
+    .fade-left { transform: translateX(-75px); }
+    .fade-right { transform: translateX(75px); }
+    .fade-bottom { transform: translateY(85px); }
+    .fade-up { transform: translateY(65px); }
+    .zoom { transform: scale(0.86); }
+
+    .show {
+      opacity: 1;
+      transform: translate(0) scale(1);
+    }
+
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.82);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* MOBILE */
+    @media (max-width: 960px) {
+      nav,
+      header .btn {
+        display: none;
+      }
+
+      .menu-btn {
+        display: block;
+        position: fixed;
+        top: 16px;
+        right: 18px;
+      }
+
+      .hero-grid,
+      .split,
+      .form-wrapper,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .hero-img {
+        height: 360px;
+      }
+
+      .mini-card {
+        position: relative;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        margin-top: 18px;
+      }
+
+      .hero-stats,
+      .core-grid,
+      .service-grid,
+      .product-grid,
+      .case-grid,
+      .partner-grid,
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 70px 5%;
+      }
+
+      .title {
+        font-size: 30px;
+      }
+
+      .split h2 {
+        font-size: 32px;
+      }
+
+      .image-small {
+        display: none;
+      }
+
+      .sale-box h2 {
+        font-size: 34px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="loader">
+    <div class="loader-logo">QTM MEDIA</div>
+    <div class="loader-line"><span></span></div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">QTM<span>.</span></div>
+
+      <nav>
+        <a href="#overview">Tổng quan</a>
+        <a href="#services">Dịch vụ</a>
+        <a href="#partners">Đối tác</a>
+        <a href="#contact">Liên hệ</a>
+      </nav>
+
+      <button class="btn open-popup">Nhận hồ sơ năng lực →</button>
+      <button class="menu-btn" id="menuBtn">☰</button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#overview">Tổng quan</a>
+    <a href="#services">Dịch vụ</a>
+    <a href="#partners">Đối tác</a>
+    <a href="#contact">Liên hệ</a>
+  </div>
+
+  <main>
+
+    <section class="hero" id="overview">
+      <div class="container hero-grid">
+        <div class="fade-left">
+          <span class="badge">Media Technology Agency</span>
+
+          <h1>
+            QTM Media Technology:<br>
+            <span>Kiến tạo giá trị bền vững</span>
+          </h1>
+
+          <p>
+            Website hồ sơ công ty giúp đối tác nhìn vào hiểu rõ doanh nghiệp đang làm gì,
+            có năng lực gì, hệ sinh thái dịch vụ ra sao và vì sao nên hợp tác.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn open-popup">Nhận hồ sơ công ty →</button>
+            <a href="#services" class="btn btn-light">Xem dịch vụ</a>
+          </div>
+
+          <div class="hero-stats fade-bottom">
+            <div class="stat">
+              <strong>Since 2011</strong>
+              Đồng hành phát triển
+            </div>
+            <div class="stat">
+              <strong>500+</strong>
+              Dự án triển khai
+            </div>
+            <div class="stat">
+              <strong>98%</strong>
+              Đối tác hài lòng
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual fade-right">
+          <div class="hero-img">
+            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80" alt="AI và công nghệ truyền thông">
+          </div>
+
+          <div class="mini-card">
+            <strong>AI + Media</strong>
+            <p>Ứng dụng công nghệ vào truyền thông và vận hành.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container split">
+        <div class="image-stack fade-left">
+          <div class="image-main">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80" alt="Tổng quan công ty">
+          </div>
+
+          <div class="image-small">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" alt="Đội ngũ tư vấn">
+          </div>
+        </div>
+
+        <div class="fade-right">
+          <h2>Tổng quan hồ sơ công ty</h2>
+          <p>
+            Đây không chỉ là một website giới thiệu. Đây là hồ sơ năng lực trực tuyến,
+            nơi đối tác có thể nhanh chóng hiểu công ty, dịch vụ, năng lực triển khai
+            và quy trình hợp tác.
+          </p>
+          <p>
+            Bố cục được thiết kế theo hành trình ra quyết định của đối tác:
+            hiểu nhanh, tin tưởng, xem năng lực, xem dịch vụ và liên hệ ngay.
+          </p>
+          <button class="btn open-popup">Liên hệ hợp tác →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark">
+      <div class="container">
+        <h2 class="title fade-up">Giá trị cốt lõi - Đồng nghiệp số</h2>
+        <p class="desc fade-up">
+          Con người và công nghệ cùng phối hợp để tạo nên năng lực triển khai bền vững.
+        </p>
+
+        <div class="core-panel zoom">
+          <h3>Triết lý “Đồng nghiệp số”</h3>
+          <p>
+            Nơi con người, hệ thống số và AI Agent cùng tồn tại, hỗ trợ và gia tăng năng lực cho nhau.
+          </p>
+
+          <div class="core-grid">
+            <div class="core-card fade-left">
+              <div class="icon">🤝</div>
+              <h4>Tin tưởng</h4>
+              <p>Minh bạch trong hợp tác, rõ ràng trong quy trình và kết quả.</p>
+            </div>
+
+            <div class="core-card fade-bottom">
+              <div class="icon">💎</div>
+              <h4>Tôn trọng</h4>
+              <p>Tôn trọng giá trị riêng của từng con người, thương hiệu và đối tác.</p>
+            </div>
+
+            <div class="core-card fade-right">
+              <div class="icon">⚙️</div>
+              <h4>Cùng làm</h4>
+              <p>Phối hợp chặt chẽ để tạo ra hiệu quả truyền thông và kinh doanh.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <h2 class="title fade-up">Hệ sinh thái dịch vụ</h2>
+        <p class="desc fade-up">
+          Các dịch vụ được trình bày rõ ràng, có hình ảnh minh họa để đối tác dễ hiểu ngay từ lần xem đầu tiên.
+        </p>
+
+        <div class="service-grid">
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=900&q=80" alt="Tổ chức sự kiện">
+            <div class="icon">🏛️</div>
+            <h3>Tổ chức sự kiện</h3>
+            <p>Hội nghị, activation, roadshow, sự kiện thương hiệu và chương trình doanh nghiệp.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
+
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80" alt="Đào tạo">
+            <div class="icon">📊</div>
+            <h3>Đào tạo</h3>
+            <p>Đào tạo marketing, truyền thông, chuyển đổi số, kỹ năng và ứng dụng AI.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
+
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=900&q=80" alt="Truyền thông tích hợp">
+            <div class="icon">📣</div>
+            <h3>Truyền thông tích hợp</h3>
+            <p>Kết hợp social, PR, content, quảng cáo và chiến dịch đa kênh.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
+
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80" alt="Tư vấn thương hiệu">
+            <div class="icon">🧭</div>
+            <h3>Tư vấn thương hiệu</h3>
+            <p>Định vị thương hiệu, văn hóa doanh nghiệp, thông điệp và chiến lược truyền thông.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
+
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80" alt="Biển bảng tấm lớn">
+            <div class="icon">🪧</div>
+            <h3>Biển bảng tấm lớn</h3>
+            <p>OOH, billboard, pano, bảng hiệu và nhận diện ngoài trời cho doanh nghiệp.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
+
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=900&q=80" alt="Sản xuất nội dung">
+            <div class="icon">🎬</div>
+            <h3>Sản xuất nội dung</h3>
+            <p>Video, hình ảnh, hồ sơ năng lực, ấn phẩm truyền thông và nội dung thương hiệu.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2 class="title fade-up">Dịch vụ nổi bật</h2>
+        <p class="desc fade-up">
+          3 gói dịch vụ giúp doanh nghiệp xây dựng hình ảnh chuyên nghiệp và tăng khả năng hợp tác.
+        </p>
+
+        <div class="product-grid">
+          <div class="product-card fade-up">
+            <span class="tag">Nổi bật</span>
+            <img src="https://images.unsplash.com/photo-1562577309-4932fdd64cd1?auto=format&fit=crop&w=900&q=80" alt="Marketing tổng thể">
+            <div class="product-body">
+              <h3>Marketing tổng thể</h3>
+              <div class="price">Từ 8.990.000đ</div>
+              <p>Chiến lược, nội dung, quảng cáo, đo lường và tối ưu tăng trưởng.</p>
+              <br>
+              <button class="btn open-popup">Nhận báo giá →</button>
+            </div>
+          </div>
+
+          <div class="product-card fade-up">
+            <span class="tag">Bán chạy</span>
+            <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=900&q=80" alt="Website hồ sơ công ty">
+            <div class="product-body">
+              <h3>Website hồ sơ công ty</h3>
+              <div class="price">Từ 6.990.000đ</div>
+              <p>Thiết kế website giúp đối tác hiểu rõ năng lực, dịch vụ và giá trị công ty.</p>
+              <br>
+              <button class="btn open-popup">Đăng ký →</button>
+            </div>
+          </div>
+
+          <div class="product-card fade-up">
+            <span class="tag">Ưu đãi</span>
+            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80" alt="AI Automation">
+            <div class="product-body">
+              <h3>AI Automation</h3>
+              <div class="price">Từ 4.990.000đ</div>
+              <p>Ứng dụng AI chatbot, tự động hóa tư vấn và chăm sóc khách hàng.</p>
+              <br>
+              <button class="btn open-popup">Liên hệ →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sale-section">
+      <div class="sale-box zoom">
+        <h2>Ưu đãi thiết kế hồ sơ công ty</h2>
+        <p>Tặng tư vấn chiến lược nội dung + demo giao diện + tối ưu CTA chuyển đổi.</p>
+        <button class="btn open-popup">Nhận ưu đãi ngay →</button>
+      </div>
+    </section>
+
+    <section class="dark">
+      <div class="container split">
+        <div class="fade-left">
+          <h2>Năng lực thực chiến bền vững</h2>
+          <p>
+            Mỗi dự án được triển khai theo quy trình rõ ràng: phân tích, định vị,
+            thiết kế, sản xuất nội dung, truyền thông và tối ưu hiệu quả.
+          </p>
+          <p>
+            Website hồ sơ công ty cần thể hiện được năng lực thực tế, không chỉ là
+            vài dòng giới thiệu đơn giản.
+          </p>
+          <button class="btn open-popup">Xem hướng triển khai →</button>
+        </div>
+
+        <div class="image-stack fade-right">
+          <div class="image-main">
+            <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=80" alt="Năng lực triển khai">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="film-strip">
+      <div class="film-track">
+        <div class="film-item"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=700&q=80"></div>
+        <div class="film-item"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=700&q=80"></div>
+        <div class="film-item"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=700&q=80"></div>
+        <div class="film-item"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=700&q=80"></div>
+        <div class="film-item"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=700&q=80"></div>
+        <div class="film-item"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=700&q=80"></div>
+      </div>
+    </div>
+
+    <section>
+      <div class="container">
+        <h2 class="title fade-up">Case Study tiêu biểu</h2>
+        <p class="desc fade-up">Một số dạng dự án có thể trình bày trong hồ sơ năng lực công ty.</p>
+
+        <div class="case-grid">
+          <div class="case-card fade-up">
+            <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80" alt="Case study truyền thông">
+            <h3>Chiến dịch truyền thông</h3>
+            <p>Tăng nhận diện thương hiệu thông qua nội dung đa kênh và sự kiện.</p>
+            <span class="result">+350%</span>
+          </div>
+
+          <div class="case-card fade-up">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80" alt="Case study dữ liệu">
+            <h3>Digital Growth</h3>
+            <p>Tối ưu nội dung, website và dữ liệu để tăng lượng khách hàng tiềm năng.</p>
+            <span class="result">+500%</span>
+          </div>
+
+          <div class="case-card fade-up">
+            <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=900&q=80" alt="Case study sự kiện">
+            <h3>Sự kiện doanh nghiệp</h3>
+            <p>Tổ chức sự kiện, hội thảo, activation và hoạt động thương hiệu.</p>
+            <span class="result">1200+</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="partners">
+      <div class="container">
+        <h2 class="title fade-up">Khách hàng tin cậy & đối tác chiến lược</h2>
+        <p class="desc fade-up">
+          Khu vực này dùng để thể hiện logo khách hàng, đối tác, media partners.
+        </p>
+
+        <div class="partner-grid fade-up">
+          <div class="partner">Vietcombank</div>
+          <div class="partner">VietinBank</div>
+          <div class="partner">HONDA</div>
+          <div class="partner">Mobifone</div>
+          <div class="partner">VTV</div>
+          <div class="partner">VOV</div>
+          <div class="partner">VNExpress</div>
+          <div class="partner">Dân Trí</div>
+          <div class="partner">Media Partner</div>
+          <div class="partner">Agency Partner</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section" id="contact">
+      <div class="container">
+        <h2 class="title fade-up">Liên hệ hợp tác</h2>
+        <p class="desc fade-up">Để lại thông tin để nhận tư vấn và hồ sơ năng lực công ty.</p>
+
+        <div class="form-wrapper">
+          <div class="contact-info fade-left">
+            <h3>Thông tin liên hệ</h3>
+            <p><strong>Công ty:</strong> QTM Media Technology</p>
+            <p><strong>Hotline:</strong> 0356 655 272</p>
+            <p><strong>Email:</strong> info@qtmmedia.vn</p>
+            <p><strong>Website:</strong> www.qtmmedia.vn</p>
+            <p>
+              Chúng tôi sẵn sàng tư vấn giải pháp truyền thông, website hồ sơ công ty,
+              marketing và ứng dụng AI phù hợp với định hướng doanh nghiệp.
+            </p>
+          </div>
+
+          <form class="form-box fade-right">
+            <div class="form-row">
+              <input type="text" placeholder="Họ và tên">
+              <input type="tel" placeholder="Số điện thoại">
+            </div>
+
+            <div class="form-row">
+              <input type="email" placeholder="Email">
+              <input type="text" placeholder="Tên công ty">
+            </div>
+
+            <select>
+              <option>Dịch vụ quan tâm</option>
+              <option>Website hồ sơ công ty</option>
+              <option>Marketing tổng thể</option>
+              <option>Tổ chức sự kiện</option>
+              <option>Sản xuất nội dung</option>
+              <option>AI Automation</option>
+            </select>
+
+            <textarea rows="4" placeholder="Nội dung cần tư vấn"></textarea>
+
+            <button type="button" class="btn">Gửi thông tin →</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h2>QTM Media Technology</h2>
+        <p>Hồ sơ năng lực trực tuyến dành cho doanh nghiệp truyền thông, marketing và công nghệ.</p>
+      </div>
+
+      <div>
+        <h3>Danh mục</h3>
+        <a href="#overview">Tổng quan</a>
+        <a href="#services">Dịch vụ</a>
+        <a href="#partners">Đối tác</a>
+        <a href="#contact">Liên hệ</a>
+      </div>
+
+      <div>
+        <h3>Liên hệ</h3>
+        <p>Hotline: 0356 655 272</p>
+        <p>Email: info@qtmmedia.vn</p>
+        <p>Website: www.qtmmedia.vn</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <span class="close" id="closePopup">×</span>
+
+      <h2>Nhận hồ sơ năng lực</h2>
+      <p>Điền thông tin để nhận tư vấn và mẫu hồ sơ công ty phù hợp với doanh nghiệp.</p>
+
+      <input type="text" placeholder="Họ và tên">
+      <input type="text" placeholder="Tên công ty">
+      <input type="tel" placeholder="Số điện thoại">
+      <input type="email" placeholder="Email">
+
+      <button class="btn" style="width:100%;">Gửi đăng ký →</button>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        const loader = document.getElementById("loader");
+        loader.style.opacity = "0";
+        loader.style.transition = "0.6s";
+        setTimeout(() => loader.style.display = "none", 600);
+      }, 1600);
+    });
+
+    const animItems = document.querySelectorAll(".fade-left, .fade-right, .fade-bottom, .fade-up, .zoom");
+
+    function revealAnimation() {
+      animItems.forEach(item => {
+        const top = item.getBoundingClientRect().top;
+        if (top < window.innerHeight - 90) {
+          item.classList.add("show");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", revealAnimation);
+    revealAnimation();
+
+    const popup = document.getElementById("popup");
+    const openBtns = document.querySelectorAll(".open-popup");
+    const closePopup = document.getElementById("closePopup");
+
+    openBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        popup.classList.add("active");
+      });
+    });
+
+    closePopup.addEventListener("click", () => {
+      popup.classList.remove("active");
+    });
+
+    popup.addEventListener("click", e => {
+      if (e.target === popup) {
+        popup.classList.remove("active");
+      }
+    });
+
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("active");
+    });
+
+    document.querySelectorAll(".mobile-menu a").forEach(link => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("active");
+      });
+    });
+  </script>
+
+</body>
+</html>
