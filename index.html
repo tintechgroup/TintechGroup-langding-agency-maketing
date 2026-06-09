@@ -27,7 +27,7 @@
     @keyframes loading{to{width:100%}}
     @keyframes pulse{50%{transform:scale(1.08)}}
 
-    header{position:fixed;top:0;width:100%;z-index:1000;padding:18px 7%;background:rgba(238,250,255,.86);backdrop-filter:blur(18px);border-bottom:1px solid rgba(14,165,233,.14)}
+    header{position:fixed;top:0;width:100%;z-index:1000;padding:18px 7%;background:rgba(238,250,255,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(14,165,233,.14)}
     .header-inner{max-width:1240px;margin:auto;display:flex;justify-content:space-between;align-items:center}
     .logo{font-size:30px;font-weight:900;color:#082f49}
     .logo span{color:#38bdf8}
@@ -76,8 +76,23 @@
       background:linear-gradient(135deg,#38bdf8,#0ea5e9);
       color:white;
       font-size:25px;
-      z-index:2000;
+      z-index:2100;
       box-shadow:0 12px 30px rgba(14,165,233,.35);
+    }
+
+    .mobile-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(8,47,73,.48);
+      z-index:1400;
+      opacity:0;
+      visibility:hidden;
+      transition:.35s;
+    }
+
+    .mobile-overlay.active{
+      opacity:1;
+      visibility:visible;
     }
 
     .mobile-menu{
@@ -87,7 +102,7 @@
       width:88%;
       max-width:330px;
       padding:26px;
-      background:rgba(8,47,73,.97);
+      background:rgba(8,47,73,.98);
       color:white;
       border-radius:24px 0 0 24px;
       z-index:1500;
@@ -96,7 +111,19 @@
     }
 
     .mobile-menu.active{right:0}
-    .mobile-menu a{display:block;padding:16px 0;font-weight:800;border-bottom:1px solid rgba(255,255,255,.1)}
+    .mobile-menu a{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:16px 0;
+      font-weight:800;
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+
+    .mobile-menu a::after{
+      content:"→";
+      color:#38bdf8;
+    }
 
     .hero{
       min-height:100vh;
@@ -129,6 +156,7 @@
 
     .hero-img{height:500px;border-radius:26px;overflow:hidden;box-shadow:0 35px 90px rgba(8,47,73,.22);animation:float 3.4s ease-in-out infinite}
     .hero-img img{height:100%;object-fit:cover}
+    .hero-visual{position:relative}
     .mini-card{position:absolute;left:-35px;bottom:40px;width:220px;padding:20px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border:1px solid rgba(14,165,233,.2);border-radius:20px;box-shadow:0 24px 55px rgba(8,47,73,.17)}
     .mini-card strong{color:#0ea5e9;font-size:24px;display:block}
     @keyframes float{50%{transform:translateY(-14px)}}
@@ -178,8 +206,114 @@
     .case-card img{height:210px;object-fit:cover;border-radius:20px;margin-bottom:18px}
     .result{margin-top:16px;display:inline-block;font-size:28px;font-weight:900;color:#0ea5e9}
 
-    .partner-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
-    .partner{min-height:92px;background:white;border:1px solid rgba(14,165,233,.12);border-radius:18px;display:grid;place-items:center;font-size:19px;font-weight:900;box-shadow:0 18px 42px rgba(14,165,233,.1)}
+    /* PARTNERS MARQUEE */
+    .partner-section{
+      background:
+        radial-gradient(circle at 15% 12%, rgba(56,189,248,.20), transparent 25%),
+        linear-gradient(135deg,#ffffff,#eefaff,#ffffff);
+      overflow:hidden;
+    }
+
+    .partner-wrap{
+      position:relative;
+      margin-top:20px;
+    }
+
+    .logo-marquee{
+      position:relative;
+      overflow:hidden;
+      margin:26px 0;
+      padding:18px 0;
+    }
+
+    .logo-marquee::before,
+    .logo-marquee::after{
+      content:"";
+      position:absolute;
+      top:0;
+      width:160px;
+      height:100%;
+      z-index:5;
+      pointer-events:none;
+    }
+
+    .logo-marquee::before{
+      left:0;
+      background:linear-gradient(to right,#ffffff,transparent);
+    }
+
+    .logo-marquee::after{
+      right:0;
+      background:linear-gradient(to left,#ffffff,transparent);
+    }
+
+    .logo-track{
+      display:flex;
+      align-items:center;
+      gap:34px;
+      width:max-content;
+      animation:scrollLogo 28s linear infinite;
+    }
+
+    .logo-marquee.reverse .logo-track{
+      animation:scrollLogoReverse 32s linear infinite;
+    }
+
+    .logo-item{
+      width:220px;
+      height:120px;
+      flex-shrink:0;
+      border-radius:22px;
+      overflow:hidden;
+      background:white;
+      border:1px solid rgba(14,165,233,.12);
+      box-shadow:0 18px 42px rgba(14,165,233,.10);
+      position:relative;
+      transition:.35s;
+    }
+
+    .logo-item img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      filter:grayscale(100%);
+      opacity:.72;
+      transition:.4s;
+    }
+
+    .logo-item span{
+      position:absolute;
+      left:14px;
+      bottom:12px;
+      z-index:2;
+      background:rgba(8,47,73,.82);
+      color:white;
+      padding:7px 12px;
+      border-radius:12px;
+      font-size:13px;
+      font-weight:800;
+      backdrop-filter:blur(10px);
+    }
+
+    .logo-item:hover{
+      transform:translateY(-6px) scale(1.03);
+      box-shadow:0 28px 65px rgba(14,165,233,.22);
+    }
+
+    .logo-item:hover img{
+      filter:none;
+      opacity:1;
+    }
+
+    @keyframes scrollLogo{
+      from{transform:translateX(0)}
+      to{transform:translateX(-50%)}
+    }
+
+    @keyframes scrollLogoReverse{
+      from{transform:translateX(-50%)}
+      to{transform:translateX(0)}
+    }
 
     .form-section{background:linear-gradient(135deg,#041f33,#075985);color:white}
     .form-section .title,.form-section .desc{color:white}
@@ -209,25 +343,60 @@
     .fade-up{transform:translateY(65px)}
     .zoom{transform:scale(.86)}
     .show{opacity:1;transform:translate(0) scale(1)}
-    @keyframes zoomIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
+
+    @keyframes zoomIn{
+      from{opacity:0;transform:scale(.82)}
+      to{opacity:1;transform:scale(1)}
+    }
 
     @media(max-width:960px){
-      header{padding:14px 5%;border-radius:0 0 18px 18px}
+      header{
+        padding:14px 5%;
+        border-radius:0 0 18px 18px;
+      }
+
       nav,header .btn{display:none}
       .logo{font-size:26px}
-      .menu-btn{display:block;position:fixed;top:13px;right:16px}
+      .menu-btn{
+        display:block;
+        position:fixed;
+        top:13px;
+        right:16px;
+      }
 
       section{padding:68px 5%}
       .hero{padding-top:105px;min-height:auto}
       .hero-grid,.split,.form-wrapper,.footer-grid{grid-template-columns:1fr;gap:32px}
-      .hero h1{font-size:34px;line-height:1.18}
+
+      .hero h1{
+        font-size:34px;
+        line-height:1.18;
+        letter-spacing:-.5px;
+      }
+
       .hero p{font-size:16px}
       .hero-actions{display:grid;grid-template-columns:1fr;gap:12px}
-      .btn{width:100%;min-height:50px;border-radius:14px;padding:15px 20px}
+      .btn{
+        width:100%;
+        min-height:50px;
+        border-radius:14px;
+        padding:15px 20px;
+      }
 
       .hero-img{height:330px;border-radius:22px}
-      .mini-card{position:relative;left:0;bottom:0;width:100%;margin-top:16px;border-radius:18px}
-      .hero-stats,.core-grid,.service-grid,.product-grid,.case-grid,.partner-grid,.form-row{grid-template-columns:1fr}
+      .mini-card{
+        position:relative;
+        left:0;
+        bottom:0;
+        width:100%;
+        margin-top:16px;
+        border-radius:18px;
+      }
+
+      .hero-stats,.core-grid,.service-grid,.product-grid,.case-grid,.form-row{
+        grid-template-columns:1fr;
+      }
+
       .stat{border-radius:16px;padding:18px}
       .title{font-size:28px;line-height:1.25}
       .desc{font-size:16px;margin-bottom:32px}
@@ -239,8 +408,44 @@
       .image-small{display:none}
       .sale-box{padding:45px 22px;border-radius:22px}
       .sale-box h2{font-size:30px}
-      .partner{font-size:17px;min-height:78px;border-radius:16px}
-      .contact-info,.form-box,.popup-content{padding:24px;border-radius:20px}
+
+      .logo-marquee{
+        margin:18px -5%;
+        padding:12px 0;
+      }
+
+      .logo-marquee::before,
+      .logo-marquee::after{
+        width:55px;
+      }
+
+      .logo-track{
+        gap:18px;
+        animation-duration:22s;
+      }
+
+      .logo-marquee.reverse .logo-track{
+        animation-duration:26s;
+      }
+
+      .logo-item{
+        width:145px;
+        height:82px;
+        border-radius:16px;
+      }
+
+      .logo-item span{
+        font-size:11px;
+        padding:5px 8px;
+        left:8px;
+        bottom:8px;
+      }
+
+      .contact-info,.form-box,.popup-content{
+        padding:24px;
+        border-radius:20px;
+      }
+
       .film-item{width:220px;height:110px}
     }
   </style>
@@ -256,16 +461,20 @@
   <header>
     <div class="header-inner">
       <div class="logo">QTM<span>.</span></div>
+
       <nav>
         <a href="#overview">Tổng quan</a>
         <a href="#services">Dịch vụ</a>
         <a href="#partners">Đối tác</a>
         <a href="#contact">Liên hệ</a>
       </nav>
+
       <button class="btn open-popup">Nhận hồ sơ năng lực →</button>
       <button class="menu-btn" id="menuBtn">☰</button>
     </div>
   </header>
+
+  <div class="mobile-overlay" id="mobileOverlay"></div>
 
   <div class="mobile-menu" id="mobileMenu">
     <a href="#overview">Tổng quan</a>
@@ -281,10 +490,12 @@
           <span class="badge">Media Technology Agency</span>
           <h1>QTM Media Technology:<br><span>Kiến tạo giá trị bền vững</span></h1>
           <p>Website hồ sơ công ty giúp đối tác nhìn vào hiểu rõ doanh nghiệp đang làm gì, có năng lực gì, hệ sinh thái dịch vụ ra sao và vì sao nên hợp tác.</p>
+
           <div class="hero-actions">
             <button class="btn open-popup">Nhận hồ sơ công ty →</button>
             <a href="#services" class="btn btn-light">Xem dịch vụ</a>
           </div>
+
           <div class="hero-stats fade-bottom">
             <div class="stat"><strong>Since 2011</strong>Đồng hành phát triển</div>
             <div class="stat"><strong>500+</strong>Dự án triển khai</div>
@@ -296,6 +507,7 @@
           <div class="hero-img">
             <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80" alt="AI và công nghệ truyền thông">
           </div>
+
           <div class="mini-card">
             <strong>AI + Media</strong>
             <p>Ứng dụng công nghệ vào truyền thông và vận hành.</p>
@@ -310,6 +522,7 @@
           <div class="image-main">
             <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80" alt="Tổng quan công ty">
           </div>
+
           <div class="image-small">
             <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" alt="Đội ngũ tư vấn">
           </div>
@@ -334,9 +547,23 @@
           <p>Nơi con người, hệ thống số và AI Agent cùng tồn tại, hỗ trợ và gia tăng năng lực cho nhau.</p>
 
           <div class="core-grid">
-            <div class="core-card fade-left"><div class="icon">🤝</div><h4>Tin tưởng</h4><p>Minh bạch trong hợp tác, rõ ràng trong quy trình và kết quả.</p></div>
-            <div class="core-card fade-bottom"><div class="icon">💎</div><h4>Tôn trọng</h4><p>Tôn trọng giá trị riêng của từng con người, thương hiệu và đối tác.</p></div>
-            <div class="core-card fade-right"><div class="icon">⚙️</div><h4>Cùng làm</h4><p>Phối hợp chặt chẽ để tạo ra hiệu quả truyền thông và kinh doanh.</p></div>
+            <div class="core-card fade-left">
+              <div class="icon">🤝</div>
+              <h4>Tin tưởng</h4>
+              <p>Minh bạch trong hợp tác, rõ ràng trong quy trình và kết quả.</p>
+            </div>
+
+            <div class="core-card fade-bottom">
+              <div class="icon">💎</div>
+              <h4>Tôn trọng</h4>
+              <p>Tôn trọng giá trị riêng của từng con người, thương hiệu và đối tác.</p>
+            </div>
+
+            <div class="core-card fade-right">
+              <div class="icon">⚙️</div>
+              <h4>Cùng làm</h4>
+              <p>Phối hợp chặt chẽ để tạo ra hiệu quả truyền thông và kinh doanh.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -348,12 +575,53 @@
         <p class="desc fade-up">Các dịch vụ được trình bày rõ ràng, có hình ảnh minh họa để đối tác dễ hiểu ngay từ lần xem đầu tiên.</p>
 
         <div class="service-grid">
-          <div class="service-card fade-up"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=900&q=80" alt="Tổ chức sự kiện"><div class="icon">🏛️</div><h3>Tổ chức sự kiện</h3><p>Hội nghị, activation, roadshow, sự kiện thương hiệu và chương trình doanh nghiệp.</p><button class="btn open-popup">Tư vấn</button></div>
-          <div class="service-card fade-up"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80" alt="Đào tạo"><div class="icon">📊</div><h3>Đào tạo</h3><p>Đào tạo marketing, truyền thông, chuyển đổi số, kỹ năng và ứng dụng AI.</p><button class="btn open-popup">Tư vấn</button></div>
-          <div class="service-card fade-up"><img src="https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=900&q=80" alt="Truyền thông tích hợp"><div class="icon">📣</div><h3>Truyền thông tích hợp</h3><p>Kết hợp social, PR, content, quảng cáo và chiến dịch đa kênh.</p><button class="btn open-popup">Tư vấn</button></div>
-          <div class="service-card fade-up"><img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80" alt="Tư vấn thương hiệu"><div class="icon">🧭</div><h3>Tư vấn thương hiệu</h3><p>Định vị thương hiệu, văn hóa doanh nghiệp, thông điệp và chiến lược truyền thông.</p><button class="btn open-popup">Tư vấn</button></div>
-          <div class="service-card fade-up"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80" alt="Biển bảng tấm lớn"><div class="icon">🪧</div><h3>Biển bảng tấm lớn</h3><p>OOH, billboard, pano, bảng hiệu và nhận diện ngoài trời cho doanh nghiệp.</p><button class="btn open-popup">Tư vấn</button></div>
-          <div class="service-card fade-up"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=900&q=80" alt="Sản xuất nội dung"><div class="icon">🎬</div><h3>Sản xuất nội dung</h3><p>Video, hình ảnh, hồ sơ năng lực, ấn phẩm truyền thông và nội dung thương hiệu.</p><button class="btn open-popup">Tư vấn</button></div>
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=900&q=80" alt="Tổ chức sự kiện">
+            <div class="icon">🏛️</div>
+            <h3>Tổ chức sự kiện</h3>
+            <p>Hội nghị, activation, roadshow, sự kiện thương hiệu và chương trình doanh nghiệp.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
+
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80" alt="Đào tạo">
+            <div class="icon">📊</div>
+            <h3>Đào tạo</h3>
+            <p>Đào tạo marketing, truyền thông, chuyển đổi số, kỹ năng và ứng dụng AI.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
+
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=900&q=80" alt="Truyền thông tích hợp">
+            <div class="icon">📣</div>
+            <h3>Truyền thông tích hợp</h3>
+            <p>Kết hợp social, PR, content, quảng cáo và chiến dịch đa kênh.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
+
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80" alt="Tư vấn thương hiệu">
+            <div class="icon">🧭</div>
+            <h3>Tư vấn thương hiệu</h3>
+            <p>Định vị thương hiệu, văn hóa doanh nghiệp, thông điệp và chiến lược truyền thông.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
+
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80" alt="Biển bảng tấm lớn">
+            <div class="icon">🪧</div>
+            <h3>Biển bảng tấm lớn</h3>
+            <p>OOH, billboard, pano, bảng hiệu và nhận diện ngoài trời cho doanh nghiệp.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
+
+          <div class="service-card fade-up">
+            <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=900&q=80" alt="Sản xuất nội dung">
+            <div class="icon">🎬</div>
+            <h3>Sản xuất nội dung</h3>
+            <p>Video, hình ảnh, hồ sơ năng lực, ấn phẩm truyền thông và nội dung thương hiệu.</p>
+            <button class="btn open-popup">Tư vấn</button>
+          </div>
         </div>
       </div>
     </section>
@@ -416,6 +684,7 @@
           <p>Website hồ sơ công ty cần thể hiện được năng lực thực tế, không chỉ là vài dòng giới thiệu đơn giản.</p>
           <button class="btn open-popup">Xem hướng triển khai →</button>
         </div>
+
         <div class="image-main fade-right">
           <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=80" alt="Năng lực triển khai">
         </div>
@@ -435,21 +704,75 @@
       <div class="container">
         <h2 class="title fade-up">Case Study tiêu biểu</h2>
         <p class="desc fade-up">Một số dạng dự án có thể trình bày trong hồ sơ năng lực công ty.</p>
+
         <div class="case-grid">
-          <div class="case-card fade-up"><img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80" alt="Chiến dịch truyền thông"><h3>Chiến dịch truyền thông</h3><p>Tăng nhận diện thương hiệu thông qua nội dung đa kênh và sự kiện.</p><span class="result">+350%</span></div>
-          <div class="case-card fade-up"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80" alt="Digital Growth"><h3>Digital Growth</h3><p>Tối ưu nội dung, website và dữ liệu để tăng lượng khách hàng tiềm năng.</p><span class="result">+500%</span></div>
-          <div class="case-card fade-up"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=900&q=80" alt="Sự kiện doanh nghiệp"><h3>Sự kiện doanh nghiệp</h3><p>Tổ chức sự kiện, hội thảo, activation và hoạt động thương hiệu.</p><span class="result">1200+</span></div>
+          <div class="case-card fade-up">
+            <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=80" alt="Chiến dịch truyền thông">
+            <h3>Chiến dịch truyền thông</h3>
+            <p>Tăng nhận diện thương hiệu thông qua nội dung đa kênh và sự kiện.</p>
+            <span class="result">+350%</span>
+          </div>
+
+          <div class="case-card fade-up">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80" alt="Digital Growth">
+            <h3>Digital Growth</h3>
+            <p>Tối ưu nội dung, website và dữ liệu để tăng lượng khách hàng tiềm năng.</p>
+            <span class="result">+500%</span>
+          </div>
+
+          <div class="case-card fade-up">
+            <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=900&q=80" alt="Sự kiện doanh nghiệp">
+            <h3>Sự kiện doanh nghiệp</h3>
+            <p>Tổ chức sự kiện, hội thảo, activation và hoạt động thương hiệu.</p>
+            <span class="result">1200+</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="partners">
+    <section class="partner-section" id="partners">
       <div class="container">
-        <h2 class="title fade-up">Khách hàng tin cậy & đối tác chiến lược</h2>
-        <p class="desc fade-up">Khu vực này dùng để thể hiện logo khách hàng, đối tác, media partners.</p>
-        <div class="partner-grid fade-up">
-          <div class="partner">Vietcombank</div><div class="partner">VietinBank</div><div class="partner">HONDA</div><div class="partner">Mobifone</div><div class="partner">VTV</div>
-          <div class="partner">VOV</div><div class="partner">VNExpress</div><div class="partner">Dân Trí</div><div class="partner">Media Partner</div><div class="partner">Agency Partner</div>
+        <h2 class="title fade-up">Đối tác & Khách hàng tiêu biểu</h2>
+        <p class="desc fade-up">
+          Hình ảnh đối tác chạy ngang giúp khu vực này sang hơn, hiện đại hơn và không bị cứng như dạng card.
+        </p>
+      </div>
+
+      <div class="partner-wrap fade-up">
+        <div class="logo-marquee">
+          <div class="logo-track">
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=600&q=80"><span>Finance</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1556157382-97eda2f9e2bf?auto=format&fit=crop&w=600&q=80"><span>Business</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=600&q=80"><span>Media</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1551836022-b06985bceb24?auto=format&fit=crop&w=600&q=80"><span>Technology</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80"><span>Education</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b?auto=format&fit=crop&w=600&q=80"><span>Retail</span></div>
+
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=600&q=80"><span>Finance</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1556157382-97eda2f9e2bf?auto=format&fit=crop&w=600&q=80"><span>Business</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=600&q=80"><span>Media</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1551836022-b06985bceb24?auto=format&fit=crop&w=600&q=80"><span>Technology</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80"><span>Education</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b?auto=format&fit=crop&w=600&q=80"><span>Retail</span></div>
+          </div>
+        </div>
+
+        <div class="logo-marquee reverse">
+          <div class="logo-track">
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&w=600&q=80"><span>Real Estate</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?auto=format&fit=crop&w=600&q=80"><span>Event</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80"><span>Innovation</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=600&q=80"><span>Corporate</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80"><span>Agency</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=80"><span>Growth</span></div>
+
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&w=600&q=80"><span>Real Estate</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?auto=format&fit=crop&w=600&q=80"><span>Event</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80"><span>Innovation</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=600&q=80"><span>Corporate</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80"><span>Agency</span></div>
+            <div class="logo-item"><img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=80"><span>Growth</span></div>
+          </div>
         </div>
       </div>
     </section>
@@ -458,6 +781,7 @@
       <div class="container">
         <h2 class="title fade-up">Liên hệ hợp tác</h2>
         <p class="desc fade-up">Để lại thông tin để nhận tư vấn và hồ sơ năng lực công ty.</p>
+
         <div class="form-wrapper">
           <div class="contact-info fade-left">
             <h3>Thông tin liên hệ</h3>
@@ -466,11 +790,29 @@
             <p><strong>Email:</strong> info@qtmmedia.vn</p>
             <p><strong>Website:</strong> www.qtmmedia.vn</p>
           </div>
+
           <form class="form-box fade-right">
-            <div class="form-row"><input type="text" placeholder="Họ và tên"><input type="tel" placeholder="Số điện thoại"></div>
-            <div class="form-row"><input type="email" placeholder="Email"><input type="text" placeholder="Tên công ty"></div>
-            <select><option>Dịch vụ quan tâm</option><option>Website hồ sơ công ty</option><option>Marketing tổng thể</option><option>Tổ chức sự kiện</option><option>Sản xuất nội dung</option><option>AI Automation</option></select>
+            <div class="form-row">
+              <input type="text" placeholder="Họ và tên">
+              <input type="tel" placeholder="Số điện thoại">
+            </div>
+
+            <div class="form-row">
+              <input type="email" placeholder="Email">
+              <input type="text" placeholder="Tên công ty">
+            </div>
+
+            <select>
+              <option>Dịch vụ quan tâm</option>
+              <option>Website hồ sơ công ty</option>
+              <option>Marketing tổng thể</option>
+              <option>Tổ chức sự kiện</option>
+              <option>Sản xuất nội dung</option>
+              <option>AI Automation</option>
+            </select>
+
             <textarea rows="4" placeholder="Nội dung cần tư vấn"></textarea>
+
             <button type="button" class="btn">Gửi thông tin →</button>
           </form>
         </div>
@@ -480,21 +822,40 @@
 
   <footer>
     <div class="footer-grid">
-      <div><h2>QTM Media Technology</h2><p>Hồ sơ năng lực trực tuyến dành cho doanh nghiệp truyền thông, marketing và công nghệ.</p></div>
-      <div><h3>Danh mục</h3><a href="#overview">Tổng quan</a><a href="#services">Dịch vụ</a><a href="#partners">Đối tác</a><a href="#contact">Liên hệ</a></div>
-      <div><h3>Liên hệ</h3><p>Hotline: 0356 655 272</p><p>Email: info@qtmmedia.vn</p><p>Website: www.qtmmedia.vn</p></div>
+      <div>
+        <h2>QTM Media Technology</h2>
+        <p>Hồ sơ năng lực trực tuyến dành cho doanh nghiệp truyền thông, marketing và công nghệ.</p>
+      </div>
+
+      <div>
+        <h3>Danh mục</h3>
+        <a href="#overview">Tổng quan</a>
+        <a href="#services">Dịch vụ</a>
+        <a href="#partners">Đối tác</a>
+        <a href="#contact">Liên hệ</a>
+      </div>
+
+      <div>
+        <h3>Liên hệ</h3>
+        <p>Hotline: 0356 655 272</p>
+        <p>Email: info@qtmmedia.vn</p>
+        <p>Website: www.qtmmedia.vn</p>
+      </div>
     </div>
   </footer>
 
   <div class="popup" id="popup">
     <div class="popup-content">
       <span class="close" id="closePopup">×</span>
+
       <h2>Nhận hồ sơ năng lực</h2>
       <p>Điền thông tin để nhận tư vấn và mẫu hồ sơ công ty phù hợp với doanh nghiệp.</p>
+
       <input type="text" placeholder="Họ và tên">
       <input type="text" placeholder="Tên công ty">
       <input type="tel" placeholder="Số điện thoại">
       <input type="email" placeholder="Email">
+
       <button class="btn" style="width:100%">Gửi đăng ký →</button>
     </div>
   </div>
@@ -535,11 +896,23 @@
 
     const menuBtn=document.getElementById("menuBtn");
     const mobileMenu=document.getElementById("mobileMenu");
+    const mobileOverlay=document.getElementById("mobileOverlay");
 
-    menuBtn.addEventListener("click",()=>mobileMenu.classList.toggle("active"));
+    function toggleMenu(){
+      mobileMenu.classList.toggle("active");
+      mobileOverlay.classList.toggle("active");
+    }
+
+    function closeMenu(){
+      mobileMenu.classList.remove("active");
+      mobileOverlay.classList.remove("active");
+    }
+
+    menuBtn.addEventListener("click",toggleMenu);
+    mobileOverlay.addEventListener("click",closeMenu);
 
     document.querySelectorAll(".mobile-menu a").forEach(link=>{
-      link.addEventListener("click",()=>mobileMenu.classList.remove("active"));
+      link.addEventListener("click",closeMenu);
     });
   </script>
 
